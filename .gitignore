@@ -7,4 +7,5 @@
 *.log
 .env
 tmp
-.vscode
+*.vscode
+*.db.sqlite3
