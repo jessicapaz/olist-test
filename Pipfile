@@ -10,6 +10,7 @@ django-environ = "*"
 gunicorn = "*"
 whitenoise = "*"
 djangorestframework = "*"
+"psycopg2-binary" = "*"
 
 [dev-packages]
 
