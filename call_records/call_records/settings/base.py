@@ -1,5 +1,6 @@
 import environ
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+
 ROOT_DIR = environ.Path(__file__) - 3
 env = environ.Env(DEBUG=(bool, False),)
 environ.Env.read_env(env_file=ROOT_DIR('.env'))
@@ -9,7 +10,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = []
 
 SECRET_KEY = env('SECRET_KEY')
-# Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,8 +56,6 @@ WSGI_APPLICATION = 'call_records.wsgi.application'
 
 
 
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -74,8 +73,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -87,9 +85,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
