@@ -1,6 +1,7 @@
 from .base import *
 from .base import env
 
+
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
 DATABASES = {

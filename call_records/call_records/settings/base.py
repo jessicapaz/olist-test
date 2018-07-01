@@ -22,6 +22,8 @@ INSTALLED_APPS = [
 
     'api',
     'users',
+
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -92,3 +94,9 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

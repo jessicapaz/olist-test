@@ -9,6 +9,7 @@ django = "*"
 django-environ = "*"
 gunicorn = "*"
 whitenoise = "*"
+djangorestframework = "*"
 
 [dev-packages]
 
