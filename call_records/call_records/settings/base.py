@@ -1,5 +1,5 @@
 import environ
-
+import os
 
 ROOT_DIR = environ.Path(__file__) - 3
 env = environ.Env(DEBUG=(bool, False),)
@@ -85,9 +85,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'users.User'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+AUTH_USER_MODEL = 'users.User'
