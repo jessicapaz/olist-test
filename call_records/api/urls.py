@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import SubscriberCreateView
-from .views import CallRecordCreateView
+from .views import CallRecordCreateListView
 
 urlpatterns = [
     path(
@@ -10,6 +10,6 @@ urlpatterns = [
     ),
     path(
         'call_record/',
-        CallRecordCreateView.as_view()
+        CallRecordCreateListView.as_view()
     ),
 ]
