@@ -9,7 +9,7 @@ from rest_framework.test import force_authenticate
 from users.models import User
 
 
-class CallEndRecordTestCase(APITestCase):
+class CallStartRecordTestCase(APITestCase):
     url = '/call_record/'
 
     def setUp(self):
@@ -20,16 +20,15 @@ class CallEndRecordTestCase(APITestCase):
         self.user.save()
         self.client.force_authenticate(user=self.user)
     
-    def test_create_call_end_record(self):
+    def test_create_call_start_record(self):
         data = {
             'id':1,
-            'type': 'end',
+            'type': 'start',
             'timestamp': '2016-02-29T12:00:00Z',
-            'call_id': 70
+            'call_id': 70,
+            'source': 99988526423,
+            'destination': 9993468278
         }
         response = self.client.post(self.url, data=data)
-        self.assertEqual(json.loads(response.content), {
-            'id':1,
-            'timestamp': '2016-02-29T12:00:00Z',
-            'call_id': 70
-        })
+        data.pop('type')
+        self.assertEqual(json.loads(response.content), data)
