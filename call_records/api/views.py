@@ -40,20 +40,18 @@ class CallRecordCreateListView(APIView):
     def post(self, request, format=None):
 
         call_type = request.data.get('type')
+        request_data = request.data.copy()
+        request_data.pop('type')
 
-        if call_type == 'end':
-            request_data = request.data.copy()
-            request_data.pop('type')
-            serializer = CallEndRecordSerializer(data=request_data)
+        if call_type == 'start':
+            serializer = CallStartRecordSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        elif call_type == 'start':
-            request_data = request.data.copy()
-            request_data.pop('type')
-            serializer = CallStartRecordSerializer(data=request_data)
+        elif call_type == 'end':
+            serializer = CallEndRecordSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
