@@ -22,5 +22,5 @@ class SubscriberTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
     
     def test_create_subscriber(self):
-        response = self.client.post(self.url, {"phone_number":"91981848675"})
-        self.assertEqual(json.loads(response.content), {'id': 1, 'phone_number': '91981848675'})
+        response = self.client.post(self.url, {"phone_number":91981848675})
+        self.assertEqual(json.loads(response.content), {'id': 1, 'phone_number': 91981848675})
