@@ -10,6 +10,7 @@ urlpatterns = [
     ),
     path(
         'call_record/',
-        CallRecordCreateListView.as_view()
+        CallRecordCreateListView.as_view(),
+        name="call-record"
     ),
 ]

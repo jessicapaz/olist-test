@@ -1,6 +1,6 @@
 import json
 
-from django.urls import reverse
+from rest_framework.reverse import reverse
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -11,7 +11,7 @@ from users.models import User
 
 
 class SubscriberTestCase(APITestCase):
-    url = '/subscriber/'
+    url = reverse('v1:subscriber-create')
 
     def setUp(self):
         self.email = "test@gmail.com"
