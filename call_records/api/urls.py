@@ -4,8 +4,8 @@ from .views import CallRecordCreateListView
 
 urlpatterns = [
     path(
-        'subscriber/', 
-        SubscriberCreateView.as_view(), 
+        'subscriber/',
+        SubscriberCreateView.as_view(),
         name="subscriber-create"
     ),
     path(

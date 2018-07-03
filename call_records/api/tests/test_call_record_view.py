@@ -19,7 +19,7 @@ class CallRecordTestCase(APITestCase):
         self.user.is_staff = True
         self.user.save()
         self.client.force_authenticate(user=self.user)
-    
+
     def test_create_call_start_record(self):
         data = {
             'id': 1,
@@ -32,7 +32,7 @@ class CallRecordTestCase(APITestCase):
         response = self.client.post(self.url, data=data)
         data.pop('type')
         self.assertEqual(json.loads(response.content), data)
-    
+
     def test_create_call_end_record(self):
         data = {
             'id': 1,

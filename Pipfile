@@ -11,6 +11,7 @@ gunicorn = "*"
 whitenoise = "*"
 djangorestframework = "*"
 "psycopg2-binary" = "*"
+pycodestyle = "*"
 
 [dev-packages]
 

@@ -28,6 +28,7 @@ class CallStartRecord(models.Model):
     def __str__(self):
         return f'{self.source} - {self.destination}'
 
+
 class CallEndRecord(models.Model):
     timestamp = models.DateTimeField()
     call_id = models.IntegerField(

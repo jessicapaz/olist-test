@@ -10,11 +10,12 @@ class SubscriberSerializer(ModelSerializer):
         model = Subscriber
         fields = '__all__'
 
+
 class CallStartRecordSerializer(ModelSerializer):
     class Meta:
         model = CallStartRecord
         fields = '__all__'
-    
+
 
 class CallEndRecordSerializer(ModelSerializer):
     class Meta:
