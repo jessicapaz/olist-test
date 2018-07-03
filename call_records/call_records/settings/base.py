@@ -7,11 +7,6 @@ environ.Env.read_env(env_file=ROOT_DIR('.env'))
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
-
-SECRET_KEY = env('SECRET_KEY')
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
