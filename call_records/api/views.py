@@ -3,16 +3,18 @@ from django.shortcuts import render
 from .models import Subscriber
 from .models import CallStartRecord
 from .models import CallEndRecord
+from .models import Price
 
 from .serializers import CallStartRecordSerializer
 from .serializers import CallEndRecordSerializer
 from .serializers import SubscriberSerializer
+from .serializers import PriceSerializer
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 
 
 class SubscriberCreateView(CreateAPIView):
@@ -56,3 +58,8 @@ class CallRecordCreateListView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PriceCreateView(CreateAPIView):
+    queryset = Price.objects.all()
+    serializer_class = PriceSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)

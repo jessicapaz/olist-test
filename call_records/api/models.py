@@ -10,7 +10,7 @@ class Subscriber(models.Model):
     )
 
     def __str__(self):
-        return self.phone_number
+        return str(self.phone_number)
 
 
 class CallStartRecord(models.Model):
@@ -37,3 +37,22 @@ class CallEndRecord(models.Model):
 
     def __str__(self):
         return str(self.call_id)
+
+
+class Price(models.Model):
+    TARRIF_CHOICES = (
+        ('standard', 'standard'),
+        ('reduced', 'reduced')
+    )
+    tarrif_type = models.CharField(
+        max_length=8,
+        choices=TARRIF_CHOICES
+    )
+    standing_charge = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+    call_charge = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
