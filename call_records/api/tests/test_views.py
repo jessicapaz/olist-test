@@ -24,6 +24,8 @@ class SubscriberTestCase(APITestCase):
     def test_create_subscriber(self):
         data = {
             "id": 1,
+            "first_name": "Test",
+            "last_name": "Test",
             "phone_number": 91981848675
         }
         response = self.client.post(self.url, data=data)
