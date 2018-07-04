@@ -18,13 +18,23 @@ from rest_framework.generics import CreateAPIView
 
 
 class SubscriberCreateView(CreateAPIView):
+    """
+    Create a new subscriber instance.
+    """
     queryset = Subscriber.objects.all()
     serializer_class = SubscriberSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class CallRecordCreateListView(APIView):
-    # permission_classes = ()
+    """
+    **get:**
+    Return a list of all call records.
+
+    **post:**
+    Create a new call record instance.
+    """
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get(self, request, format=None):
 
@@ -60,6 +70,9 @@ class CallRecordCreateListView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PriceCreateView(CreateAPIView):
+    """
+    Create a new price instance.
+    """
     queryset = Price.objects.all()
     serializer_class = PriceSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)

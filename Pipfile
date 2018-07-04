@@ -12,6 +12,7 @@ whitenoise = "*"
 djangorestframework = "*"
 "psycopg2-binary" = "*"
 pycodestyle = "*"
+markdown = "*"
 
 [dev-packages]
 
