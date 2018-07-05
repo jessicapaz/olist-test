@@ -1,7 +1,7 @@
 from django.db import models
 
 from validators.phone_validator import validate_phone
-
+from validators.month_year_validator import validate_month, validate_year
 
 class Subscriber(models.Model):
     first_name = models.CharField(
@@ -61,4 +61,26 @@ class Price(models.Model):
     call_charge = models.DecimalField(
         max_digits=5,
         decimal_places=2
+    )
+
+class BillRecord(models.Model):
+    subscriber = models.ForeignKey(
+        'Subscriber',
+        on_delete=models.PROTECT
+    )
+    call_start_record = models.ForeignKey(
+        "CallStartRecord",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    call_duration = models.TimeField()
+    reference_month = models.IntegerField(
+        validators=[validate_month]
+    )
+    reference_year = models.IntegerField(
+        validators=[validate_year]
+    )
+    call_price = models.DecimalField(
+        max_digits=6,
+        decimal_places=3
     )
