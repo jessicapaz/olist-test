@@ -4,13 +4,19 @@ from validators.phone_validator import validate_phone
 
 
 class Subscriber(models.Model):
+    first_name = models.CharField(
+        max_length=30
+    )
+    last_name = models.CharField(
+        max_length=30
+    )
     phone_number = models.BigIntegerField(
         validators=[validate_phone],
         unique=True
     )
 
     def __str__(self):
-        return str(self.phone_number)
+        return f'{first_name} {last_name}'
 
 
 class CallStartRecord(models.Model):

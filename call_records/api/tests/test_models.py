@@ -9,6 +9,8 @@ from api.models import Price
 class SubscriberTest(TestCase):
     def setUp(self):
         self.subscriber = Subscriber.objects.create(
+            first_name="Test",
+            last_name="Test",
             phone_number=91981848675
         )
 
