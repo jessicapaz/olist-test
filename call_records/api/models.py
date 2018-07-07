@@ -10,9 +10,12 @@ class Subscriber(models.Model):
     last_name = models.CharField(
         max_length=30
     )
-    phone_number = models.BigIntegerField(
+    phone_number = models.CharField(
+        max_length=11,
+        primary_key=True,
         validators=[validate_phone],
-        unique=True
+        unique=True,
+        db_column="id"
     )
 
     def __str__(self):
@@ -24,10 +27,12 @@ class CallStartRecord(models.Model):
     call_id = models.IntegerField(
         unique=True
     )
-    source = models.BigIntegerField(
-        validators=[validate_phone]
+    source = models.ForeignKey(
+        "Subscriber",
+        on_delete=models.PROTECT
     )
-    destination = models.BigIntegerField(
+    destination = models.CharField(
+        max_length=11,
         validators=[validate_phone]
     )
 
@@ -82,5 +87,5 @@ class BillRecord(models.Model):
     )
     call_price = models.DecimalField(
         max_digits=6,
-        decimal_places=3
+        decimal_places=2
     )
