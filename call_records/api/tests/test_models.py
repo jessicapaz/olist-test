@@ -13,24 +13,30 @@ import decimal
 class SubscriberTest(TestCase):
     def setUp(self):
         self.subscriber = Subscriber.objects.create(
-            first_name="Test",
-            last_name="Test",
-            phone_number=91981848675
+            first_name='Test',
+            last_name='Test',
+            phone_number='99988526423'
         )
 
     def test_subscriber_fields(self):
-        subscriber = Subscriber.objects.get(phone_number=91981848675)
-        self.assertEqual(subscriber.phone_number, 91981848675)
+        subscriber = Subscriber.objects.get(phone_number='99988526423')
+        self.assertEqual(subscriber.phone_number, '99988526423')
 
 
 class CallStartRecordTest(TestCase):
     def setUp(self):
+        self.subscriber_create = Subscriber.objects.create(
+            first_name='Test',
+            last_name='Test',
+            phone_number='91981848675'
+        )
+        self.subscriber = Subscriber.objects.get(first_name='Test')
         self.call_start_record = CallStartRecord.objects.create(
             id=1,
             timestamp='2016-02-29T12:00:00Z',
             call_id=3,
-            source=99988526423,
-            destination=9993468278
+            source=self.subscriber,
+            destination="9993468278"
         )
 
     def test_call_start_record_fields(self):
@@ -69,15 +75,15 @@ class BillRecordTest(TestCase):
         self.subscriber_create = Subscriber.objects.create(
             first_name="Test",
             last_name="Test",
-            phone_number=91981848675
+            phone_number="91981848675"
         )
-        
+        self.subscriber = Subscriber.objects.get(first_name="Test")        
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
             timestamp='2016-02-29T12:00:00Z',
             call_id=3,
-            source=99988526423,
-            destination=9993468278
+            source=self.subscriber,
+            destination="9993468278"
         )
         
         self.call_end_create = CallEndRecord.objects.create(
@@ -86,7 +92,6 @@ class BillRecordTest(TestCase):
             call_id=3
         )
 
-        self.subscriber = Subscriber.objects.get(first_name="Test")
         self.call_start = CallStartRecord.objects.get(call_id=3)
         self.call_end = CallEndRecord.objects.get(call_id=3)
         

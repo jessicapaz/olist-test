@@ -23,10 +23,9 @@ class SubscriberTestCase(APITestCase):
 
     def test_create_subscriber(self):
         data = {
-            "id": 1,
             "first_name": "Test",
             "last_name": "Test",
-            "phone_number": 91981848675
+            "phone_number": "91981848675"
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(json.loads(response.content), data)
@@ -42,6 +41,11 @@ class CallRecordTestCase(APITestCase):
         self.user.is_staff = True
         self.user.save()
         self.client.force_authenticate(user=self.user)
+        self.subscriber = Subscriber.objects.create(
+            first_name='Test',
+            last_name='Test',
+            phone_number='99988526423'
+        )
 
     def test_create_call_start_record(self):
         data = {
@@ -49,8 +53,8 @@ class CallRecordTestCase(APITestCase):
             'type': 'start',
             'timestamp': '2016-02-29T12:00:00Z',
             'call_id': 70,
-            'source': 99988526423,
-            'destination': 9993468278
+            'source': '99988526423',
+            'destination': '9993468278'
         }
         response = self.client.post(self.url, data=data)
         data.pop('type')
