@@ -28,10 +28,10 @@ class SubscriberCreateView(CreateAPIView):
 
 class CallRecordCreateListView(APIView):
     """
-    **get:**
+    **GET:**
     Return a list of all call records.
 
-    **post:**
+    **POST:**
     Create a new call record instance.
     """
     permission_classes = (IsAuthenticated, IsAdminUser)

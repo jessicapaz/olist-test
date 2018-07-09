@@ -15,7 +15,7 @@ def create_bill_record(sender, instance, created, **kwargs):
     if created:
         call_id = instance.call_id
         call_start = CallStartRecord.objects.get(call_id=call_id)
-        subscriber = Subscriber.objects.get(id=call_start.source)
+        subscriber = Subscriber.objects.get(phone_number=call_start.source.phone_number)
 
         duration = instance.timestamp - call_start.timestamp
         duration_format = (datetime.datetime.min + duration).time()
