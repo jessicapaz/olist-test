@@ -1,7 +1,7 @@
 from .models import Price
 
 
-class Bill():
+class Bill:
     def __init__(self, call_start):
         self.call_start = call_start
     

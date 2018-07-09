@@ -2,6 +2,7 @@ from django.urls import path
 from .views import SubscriberCreateView
 from .views import CallRecordCreateListView
 from .views import PriceCreateView
+from .views import BillRecordView
 
 urlpatterns = [
     path(
@@ -19,4 +20,9 @@ urlpatterns = [
         PriceCreateView.as_view(),
         name="price-create"
     ),
+    path(
+        'bill_record/<slug:phone_number>/',
+        BillRecordView.as_view(),
+        name="bill-record"
+    )
 ]
