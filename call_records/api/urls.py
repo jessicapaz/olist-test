@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import SubscriberCreateView
 from .views import CallRecordCreateListView
 from .views import PriceCreateView
@@ -24,5 +24,5 @@ urlpatterns = [
         'bill_record/<slug:phone_number>/',
         BillRecordView.as_view(),
         name="bill-record"
-    )
+    ),
 ]

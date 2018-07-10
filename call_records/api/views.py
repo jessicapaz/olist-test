@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from django.db.models import Sum
 
 from .models import Subscriber
 from .models import CallStartRecord
@@ -78,14 +80,33 @@ class PriceCreateView(CreateAPIView):
 
 
 class BillRecordView(APIView):
+    """
+    Return a bill records list of one subscriber.
+    """
     permission_classes = (IsAuthenticated, IsAdminUser)
-    def get(self, request, *args, **kwargs):
-        phone_number = str(kwargs.get('phone_number'))
-        try:
-            subscriber = Subscriber.objects.get(phone_number=phone_number)
-        except Subscriber.DoesNotExist:
-            raise Http404('Phone number not found.')
-        bills = BillRecord.objects.filter(subscriber=subscriber)
 
-        serializer = BillRecordSerializer(bills, many=True).data
-        return Response(serializer, status.HTTP_200_OK)
+    def get(self, request, *args, **kwargs):
+        current_month = timezone.now().month
+        if current_month == 1:
+            month =  current_month + 11
+            year = timezone.now().year - 1
+        else:
+            month =  current_month - 1
+            year =  timezone.now().year
+        month = request.GET.get('month', month)
+        year = request.GET.get('year', year)
+        phone_number = kwargs.get('phone_number')
+        subscriber = get_object_or_404(Subscriber, phone_number=phone_number)
+        bills = BillRecord.objects.filter(
+            subscriber=subscriber, 
+            reference_month=month,
+            reference_year=year
+        )
+        subscriber_name = f'{subscriber.first_name} {subscriber.last_name}'
+        total_price = bills.aggregate(Sum('call_price'))
+        data = {
+            'subscriber': subscriber_name,
+            'total_price': total_price['call_price__sum'],
+            'bill_records': BillRecordSerializer(bills, many=True).data
+        } 
+        return Response(data, status.HTTP_200_OK)
