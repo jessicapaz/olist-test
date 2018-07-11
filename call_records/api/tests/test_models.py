@@ -1,3 +1,7 @@
+import datetime
+import decimal
+import pytz
+
 from django.test import TestCase
 
 from api.models import Subscriber
@@ -6,9 +10,7 @@ from api.models import CallEndRecord
 from api.models import Price
 from api.models import BillRecord
 from django.utils import timezone
-import datetime
-import decimal
-import pytz
+
 from api.bill import Bill
 
 
@@ -48,12 +50,34 @@ class CallStartRecordTest(TestCase):
 
 class CallEndRecordTest(TestCase):
     def setUp(self):
+        self.subscriber_create = Subscriber.objects.create(
+            first_name='Test',
+            last_name='Test',
+            phone_number='99988526423'
+        )
+        self.subscriber = Subscriber.objects.get(first_name='Test')
+        self.price_test_standard = Price.objects.create(
+            tarrif_type='standard',
+            standing_charge=0.36,
+            call_charge=0.09
+        )
+        self.price_test_reduced = Price.objects.create(
+            tarrif_type='reduced',
+            standing_charge=0.36,
+            call_charge=0.00
+        )     
+        self.call_start_record = CallStartRecord.objects.create(
+            id=1,
+            timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),
+            call_id=3,
+            source=self.subscriber,
+            destination="9993468278"
+        )
         self.call_end_test = CallEndRecord.objects.create(
             id=1,
-            timestamp='2016-02-29T12:00:00Z',
+            timestamp=datetime.datetime(2016, 2, 29, 13, 35, 0, tzinfo=pytz.UTC),
             call_id=3
         )
-
     def test_call_end_record_fields(self):
         call_end_record = CallEndRecord.objects.get(call_id=3)
         self.assertEqual(call_end_record.id, 1)

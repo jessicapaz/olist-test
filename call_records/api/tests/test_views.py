@@ -54,6 +54,11 @@ class CallRecordTestCase(APITestCase):
             last_name='Test',
             phone_number='99988526423'
         )
+        self.price_test_standard = Price.objects.create(
+            tarrif_type='standard',
+            standing_charge=0.36,
+            call_charge=0.09
+        )
 
     def test_create_call_start_record(self):
         subscriber = Subscriber.objects.get(first_name='Test')
@@ -63,13 +68,23 @@ class CallRecordTestCase(APITestCase):
             'timestamp': '2016-02-29T12:00:00Z',
             'call_id': 70,
             'source': subscriber.phone_number,
-            'destination': '9993468278'
+            'destination': '9993468277'
         }
         response = self.client.post(self.url, data=data)
         data.pop('type')
         self.assertEqual(json.loads(response.content), data)
 
     def test_create_call_end_record(self):
+        subscriber = Subscriber.objects.get(first_name='Test')
+        data = {
+            'id': 1,
+            'type': 'start',
+            'timestamp': '2016-02-29T12:00:00Z',
+            'call_id': 70,
+            'source': subscriber.phone_number,
+            'destination': '9993468277'
+        }
+        response = self.client.post(self.url, data=data)
         data = {
             'id': 1,
             'type': 'end',
