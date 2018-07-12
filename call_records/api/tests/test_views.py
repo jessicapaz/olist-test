@@ -94,7 +94,46 @@ class CallRecordTestCase(APITestCase):
         response = self.client.post(self.url, data=data)
         data.pop('type')
         self.assertEqual(json.loads(response.content), data)
-
+    
+    def test_get_call_records(self):
+        subscriber = Subscriber.objects.get(first_name='Test')
+        call_start = {
+            'id': 1,
+            'type': 'start',
+            'timestamp': '2016-02-29T12:00:00Z',
+            'call_id': 70,
+            'source': subscriber.phone_number,
+            'destination': '9993468277'
+        }
+        response = self.client.post(self.url, data=call_start)
+        call_end = {
+            'id': 1,
+            'type': 'end',
+            'timestamp': '2016-02-29T12:00:00Z',
+            'call_id': 70
+        }
+        response = self.client.post(self.url, data=call_end)
+        data = {
+            'call_start_records': [
+                {
+                    'id': 1,
+                    'timestamp': '2016-02-29T12:00:00Z',
+                    'call_id': 70,
+                    'source': 99988526423,
+                    'destination': '9993468277' 
+                }
+            ],
+            'call_end_records': [
+                {
+                    'id': 1,
+                    'timestamp': '2016-02-29T12:00:00Z',
+                    'call_id': 70
+                }
+            ]
+        }
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), data)
 
 class PriceTestCase(APITestCase):
     url = reverse('v1:price-create')
