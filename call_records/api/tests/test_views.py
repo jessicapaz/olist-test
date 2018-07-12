@@ -94,7 +94,7 @@ class CallRecordTestCase(APITestCase):
         response = self.client.post(self.url, data=data)
         data.pop('type')
         self.assertEqual(json.loads(response.content), data)
-    
+
     def test_get_call_records(self):
         subscriber = Subscriber.objects.get(first_name='Test')
         call_start = {
@@ -120,7 +120,7 @@ class CallRecordTestCase(APITestCase):
                     'timestamp': '2016-02-29T12:00:00Z',
                     'call_id': 70,
                     'source': 99988526423,
-                    'destination': '9993468277' 
+                    'destination': '9993468277'
                 }
             ],
             'call_end_records': [
@@ -134,6 +134,7 @@ class CallRecordTestCase(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.content), data)
+
 
 class PriceTestCase(APITestCase):
     url = reverse('v1:price-create')
@@ -182,7 +183,7 @@ class BillRecordTestCase(APITestCase):
             tarrif_type='reduced',
             standing_charge=0.36,
             call_charge=0.00
-        )         
+        )
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
             timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),
@@ -199,16 +200,13 @@ class BillRecordTestCase(APITestCase):
     def test_get_bill_record(self):
         subscriber = Subscriber.objects.get(first_name="Test")
         data = {
-        "id":1,
-        "subscriber_id": 99988526423,
-        "call_start_record_id": 1,
-        "call_duration": datetime.time(1, 35),
-        "reference_month": 2,
-        "reference_year": 2016,
-        "call_price": decimal.Decimal("8.91"),
-        
+            "id": 1,
+            "subscriber_id": 99988526423,
+            "call_start_record_id": 1,
+            "call_duration": datetime.time(1, 35),
+            "reference_month": 2,
+            "reference_year": 2016,
+            "call_price": decimal.Decimal("8.91"),
         }
         bill = BillRecord.objects.filter(subscriber=subscriber).values().last()
         self.assertEqual(bill, data)
-          
-

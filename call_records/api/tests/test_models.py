@@ -65,7 +65,7 @@ class CallEndRecordTest(TestCase):
             tarrif_type='reduced',
             standing_charge=0.36,
             call_charge=0.00
-        )     
+        )
         self.call_start_record = CallStartRecord.objects.create(
             id=1,
             timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),
@@ -78,6 +78,7 @@ class CallEndRecordTest(TestCase):
             timestamp=datetime.datetime(2016, 2, 29, 13, 35, 0, tzinfo=pytz.UTC),
             call_id=3
         )
+
     def test_call_end_record_fields(self):
         call_end_record = CallEndRecord.objects.get(call_id=3)
         self.assertEqual(call_end_record.id, 1)
@@ -112,8 +113,8 @@ class BillRecordTest(TestCase):
             tarrif_type='reduced',
             standing_charge=0.36,
             call_charge=0.00
-        )     
-        self.subscriber = Subscriber.objects.get(first_name="Test")        
+        )
+        self.subscriber = Subscriber.objects.get(first_name="Test")
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
             timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),

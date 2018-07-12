@@ -34,7 +34,7 @@ class PriceSerializer(ModelSerializer):
 class BillRecordSerializer(ModelSerializer):
     class Meta:
         model = BillRecord
-        fields = ("call_duration","call_price")
+        fields = ("call_duration", "call_price")
 
     def to_representation(self, instance):
         data = super(BillRecordSerializer, self).to_representation(instance)

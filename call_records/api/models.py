@@ -3,6 +3,7 @@ from django.db import models
 from validators.phone_validator import validate_phone
 from validators.month_year_validator import validate_month, validate_year
 
+
 class Subscriber(models.Model):
     first_name = models.CharField(
         max_length=30
@@ -67,6 +68,7 @@ class Price(models.Model):
         max_digits=5,
         decimal_places=2
     )
+
 
 class BillRecord(models.Model):
     subscriber = models.ForeignKey(

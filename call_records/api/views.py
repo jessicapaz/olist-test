@@ -57,7 +57,7 @@ class CallRecordCreateListView(APIView):
         return Response(data, status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        call_type = request.data.get('type')
+        call_type = request.data.get('type', None)
         request_data = request.data.copy()
         request_data.pop('type')
         if call_type == 'start':
@@ -92,17 +92,17 @@ class BillRecordView(APIView):
     def get(self, request, *args, **kwargs):
         current_month = timezone.now().month
         if current_month == 1:
-            month =  current_month + 11
+            month = current_month + 11
             year = timezone.now().year - 1
         else:
-            month =  current_month - 1
-            year =  timezone.now().year
+            month = current_month - 1
+            year = timezone.now().year
         month = request.GET.get('month', month)
         year = request.GET.get('year', year)
         phone_number = kwargs.get('phone_number')
         subscriber = get_object_or_404(Subscriber, phone_number=phone_number)
         bills = BillRecord.objects.filter(
-            subscriber=subscriber, 
+            subscriber=subscriber,
             reference_month=month,
             reference_year=year
         )
@@ -112,5 +112,5 @@ class BillRecordView(APIView):
             'subscriber': subscriber_name,
             'total_price': total_price['call_price__sum'],
             'bill_records': BillRecordSerializer(bills, many=True).data
-        } 
+        }
         return Response(data, status.HTTP_200_OK)

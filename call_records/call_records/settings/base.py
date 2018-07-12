@@ -51,9 +51,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'call_records.wsgi.application'
 
-
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -69,9 +66,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -85,7 +79,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(ROOT_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
- 
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'users.User'
