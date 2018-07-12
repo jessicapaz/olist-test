@@ -42,13 +42,17 @@ class CallRecordCreateListView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get(self, request, format=None):
+        call_start_records = CallStartRecord.objects.all()
+        call_end_records = CallEndRecord.objects.all()
+        call_start_serializer = CallStartRecordSerializer(
+            call_start_records, many=True
+        ).data
+        call_end_serializer = CallEndRecordSerializer(
+            call_end_records, many=True
+        ).data
         data = {
-            'call_start_records': CallStartRecordSerializer(
-                CallStartRecord.objects.all(), many=True
-                ).data,
-            'call_end_records': CallEndRecordSerializer(
-                CallEndRecord.objects.all(), many=True
-                ).data
+            'call_start_records': call_start_serializer,
+            'call_end_records': call_end_serializer
         }
         return Response(data, status.HTTP_200_OK)
 
