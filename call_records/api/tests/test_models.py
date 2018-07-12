@@ -103,6 +103,16 @@ class BillRecordTest(TestCase):
             last_name="Test",
             phone_number="91981848675"
         )
+        self.price_test_standard = Price.objects.create(
+            tarrif_type='standard',
+            standing_charge=0.36,
+            call_charge=0.09
+        )
+        self.price_test_reduced = Price.objects.create(
+            tarrif_type='reduced',
+            standing_charge=0.36,
+            call_charge=0.00
+        )     
         self.subscriber = Subscriber.objects.get(first_name="Test")        
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
@@ -120,21 +130,11 @@ class BillRecordTest(TestCase):
         self.call_end = CallEndRecord.objects.get(call_id=3)
         self.duration = self.call_end.timestamp - self.call_start.timestamp
         self.duration_format = (datetime.datetime.min + self.duration).time()
-        self.price_test_standard = Price.objects.create(
-            tarrif_type='standard',
-            standing_charge=0.36,
-            call_charge=0.09
-        )
-        self.price_test_reduced = Price.objects.create(
-            tarrif_type='reduced',
-            standing_charge=0.36,
-            call_charge=0.00
-        )     
         self.bill = Bill(self.call_start)
-        self.call_price = self.bill.calculate_price(duration)
+        self.call_price = self.bill.calculate_price(self.duration)
 
         self.bill_record = BillRecord.objects.create(
-            id=1,
+            id=2,
             subscriber=self.subscriber,
             call_start_record=self.call_start,
             call_duration=self.duration_format,
@@ -144,5 +144,5 @@ class BillRecordTest(TestCase):
         )
 
     def test_bill_record_fields(self):
-        bill_test = BillRecord.objects.get(id=1)
+        bill_test = BillRecord.objects.get(id=2)
         self.assertEqual(float(bill_test.call_price), 8.91)
