@@ -93,9 +93,13 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_VERSION': '1.0',
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    ],
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }

@@ -13,6 +13,7 @@ djangorestframework = "*"
 "psycopg2-binary" = "*"
 pycodestyle = "*"
 markdown = "*"
+djangorestframework-jwt = "*"
 
 [dev-packages]
 
