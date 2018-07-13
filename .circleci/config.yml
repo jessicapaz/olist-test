@@ -13,6 +13,7 @@ workflows:
 version: 2
 jobs:
   build:
+    working_directory: ~/call_records
     docker:
       - image: circleci/python:3.6.4
         environment:
@@ -32,14 +33,11 @@ jobs:
             - "/usr/local/lib/python3.6/site-packages"
       - run:
           command: |
-            pipenv run "python manage.py test"
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
+            pipenv run "python ./call_records/manage.py test"
 
   deploy:
+    docker:
+      - image: buildpack-deps:trusty
     steps:
       - checkout
       - run:
