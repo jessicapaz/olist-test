@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
 
 from .models import CallEndRecord
 from .models import CallStartRecord
@@ -14,8 +15,9 @@ import datetime
 def create_bill_record(sender, instance, created, **kwargs):
     if created:
         call_id = instance.call_id
-        call_start = CallStartRecord.objects.get(call_id=call_id)
-        subscriber = Subscriber.objects.get(
+        call_start = get_object_or_404(CallStartRecord, call_id=call_id)
+        subscriber = get_object_or_404(
+            Subscriber,
             phone_number=call_start.source.phone_number
         )
         duration = instance.timestamp - call_start.timestamp
