@@ -58,20 +58,34 @@ class CallRecordCreateListView(APIView):
 
     def post(self, request, format=None):
         call_type = request.data.get('type', None)
-        request_data = request.data.copy()
-        request_data.pop('type')
+        request_data = self.get_request_data(call_type, request)
+        try:
+            get_serializer = self.get_call_serializer(call_type)
+        except TypeError:
+            error_message = 'call type must be start or end.'
+            return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+        serializer = get_serializer(data=request_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_request_data(self, call_type, request):
+        if call_type:
+            request_data = request.data.copy()
+            request_data.pop('type')
+            return request_data
+        else:
+            error_message = 'call type is required.'
+            return Response(error_message, status=status.HTTP_400_BAD_REQUEST)   
+
+    def get_call_serializer(self, call_type):
         if call_type == 'start':
-            serializer = CallStartRecordSerializer(data=request_data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return CallStartRecordSerializer
         elif call_type == 'end':
-            serializer = CallEndRecordSerializer(data=request_data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return CallEndRecordSerializer
+        else:
+            raise TypeError
 
 
 class PriceCreateView(CreateAPIView):
@@ -90,22 +104,24 @@ class BillRecordView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get(self, request, *args, **kwargs):
-        current_month = timezone.now().month
-        if current_month == 1:
-            month = current_month + 11
-            year = timezone.now().year - 1
-        else:
-            month = current_month - 1
-            year = timezone.now().year
+        month, year = self.get_previous_month()
         month = request.GET.get('month', month)
         year = request.GET.get('year', year)
         phone_number = kwargs.get('phone_number')
         subscriber = get_object_or_404(Subscriber, phone_number=phone_number)
+        bills = self.get_bill_queryset(subscriber, month, year)
+        data = self.get_bill_data(subscriber, bills)
+        return Response(data, status.HTTP_200_OK)
+    
+    def get_bill_queryset(self, subscriber, month, year):
         bills = BillRecord.objects.filter(
             subscriber=subscriber,
             reference_month=month,
             reference_year=year
         )
+        return bills
+
+    def get_bill_data(self, subscriber, bills):
         subscriber_name = f'{subscriber.first_name} {subscriber.last_name}'
         total_price = bills.aggregate(Sum('call_price'))
         data = {
@@ -113,4 +129,14 @@ class BillRecordView(APIView):
             'total_price': total_price['call_price__sum'],
             'bill_records': BillRecordSerializer(bills, many=True).data
         }
-        return Response(data, status.HTTP_200_OK)
+        return data
+
+    def get_previous_month(self):
+        current_month = timezone.now().month
+        if current_month == 1:
+            month = current_month + 11
+            year = timezone.now().year - 1
+        else:
+            month = current_month - 1
+            year = timezone.now().year
+        return month, year
