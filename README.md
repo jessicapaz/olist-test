@@ -20,13 +20,13 @@ A REST API that receives call records and calculates monthly bills for a given t
 `$ python manage.py test`
 
 ## Work environment 
-* **Computer**
+* **Computer:**
 `Notebook Asus Core i3-4005U 4GB 1TB`
 
-* **Operating System**
+* **Operating System:**
 `Ubuntu 16.04`
 
-* **Code Editor**
+* **Code Editor:**
 `Visual Studio Code`
 
 # API Documentation
