@@ -20,11 +20,13 @@ A REST API that receives call records and calculates monthly bills for a given t
 `$ python manage.py test`
 
 ## Work environment 
-
+* **Computer**
 `Notebook Asus Core i3-4005U 4GB 1TB`
 
+* **Operating System**
 `Ubuntu 16.04`
 
+* **Code Editor**
 `Visual Studio Code`
 
 # API Documentation
@@ -38,6 +40,7 @@ https://callrecords.herokuapp.com/v1/auth/
 ```
 
 * **POST (Create)**
+
   * **Exemple:**
   ```bash
   $ curl -X POST -d "email=test&password=test" https://callrecords.herokuapp.com/v1/auth/
@@ -91,6 +94,53 @@ https://callrecords.herokuapp.com/v1/subscriber/
   $ curl -H "Authorization: JWT <your_token>" -X DELETE https://callrecords.herokuapp.com/v1/subscriber/99985257541
   ```
 
+## Price 
+Receives a Price.
+
+### **Base URL**:
+```
+https://callrecords.herokuapp.com/v1/price/
+```
+
+* **POST (Create)** 
+  * **URL**
+  ```
+  https://callrecords.herokuapp.com/v1/price/
+  ```
+  * **Exemple:**
+  ```bash
+  $ curl -H "Authorization: JWT <your_token>" -X POST -d "tarrif_type=standard&standing_charge=0.38&call_charge=0.08" https://callrecords.herokuapp.com/v1/price/
+  ```
+
+* **GET (List)**
+  * **URL**
+  ```
+  https://callrecords.herokuapp.com/v1/price/
+  ```
+  * **Exemple:**
+  ```bash
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/price/
+  ```
+
+* **GET (Retrieve)**
+  * **URL**
+  ```
+  https://callrecords.herokuapp.com/v1/price/{id}
+  ```
+  * **Exemple:**
+  ```bash
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/price/1
+  ```
+
+* **DELETE**
+  * **URL**
+  ```
+  https://callrecords.herokuapp.com/v1/price/{id}
+  ```
+  * **Exemple:**
+  ```bash
+  $ curl -H "Authorization: JWT <your_token>" -X DELETE https://callrecords.herokuapp.com/v1/price/1
+  ```
 
 
 
