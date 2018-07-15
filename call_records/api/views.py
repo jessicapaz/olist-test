@@ -92,7 +92,7 @@ class CallRecordCreateListView(APIView):
         try:
             get_serializer = self.get_call_serializer(call_type)
         except TypeError:
-            error_message = 'call type must be start or end.'
+            error_message = 'detail: type must be start or end.'
             return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
         serializer = get_serializer(data=request_data)
         if serializer.is_valid():
@@ -106,7 +106,7 @@ class CallRecordCreateListView(APIView):
             request_data.pop('type')
             return request_data
         else:
-            error_message = 'call type is required.'
+            error_message = 'detail: type is required.'
             return Response(error_message, status=status.HTTP_400_BAD_REQUEST)   
 
     def get_call_serializer(self, call_type):
