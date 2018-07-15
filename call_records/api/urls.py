@@ -19,12 +19,12 @@ urlpatterns = [
         obtain_jwt_token
     ),
     path(
-        'call_record/',
+        'call-record/',
         CallRecordCreateListView.as_view(),
         name="call-record"
     ),
     path(
-        'bill_record/<slug:phone_number>/',
+        'bill-record/<slug:phone_number>/',
         BillRecordView.as_view(),
         name="bill-record"
     ),
