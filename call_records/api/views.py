@@ -20,16 +20,36 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ViewSet
 
 
-class SubscriberCreateView(CreateAPIView):
+class SubscriberViewSet(ViewSet):
     """
     Create a new subscriber instance.
     """
     queryset = Subscriber.objects.all()
-    serializer_class = SubscriberSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)
 
+    def create(self, request, *args, **kwargs):
+        serializer = SubscriberSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request):
+        serializer = SubscriberSerializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None):
+        subscriber = get_object_or_404(self.queryset, pk=pk)
+        serializer = SubscriberSerializer(subscriber)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        subscriber = get_object_or_404(Subscriber, pk=pk)
+        subscriber.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CallRecordCreateListView(APIView):
     """
@@ -88,13 +108,33 @@ class CallRecordCreateListView(APIView):
             raise TypeError
 
 
-class PriceCreateView(CreateAPIView):
+class PriceViewSet(ViewSet):
     """
     Create a new price instance.
     """
     queryset = Price.objects.all()
-    serializer_class = PriceSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)
+
+    def create(self, request, *args, **kwargs):
+        serializer = PriceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request):
+        serializer = PriceSerializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request, pk=None):
+        price = get_object_or_404(Price, pk=pk)
+        serializer = PriceSerializer(price)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def destroy(self, request, pk=None):
+        price = get_object_or_404(Price, pk=pk)
+        price.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class BillRecordView(APIView):
