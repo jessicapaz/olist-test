@@ -1,11 +1,17 @@
-from django.urls import path
+from django.urls import path, include
 
 from rest_framework_jwt.views import obtain_jwt_token
 
-from .views import SubscriberCreateView
+from .views import SubscriberViewSet
 from .views import CallRecordCreateListView
-from .views import PriceCreateView
+from .views import PriceViewSet
 from .views import BillRecordView
+
+from rest_framework.routers import SimpleRouter
+
+router = SimpleRouter()
+router.register('subscriber', SubscriberViewSet, base_name='subscriber')
+router.register('price', PriceViewSet, base_name='price')
 
 urlpatterns = [
     path(
@@ -13,19 +19,9 @@ urlpatterns = [
         obtain_jwt_token
     ),
     path(
-        'subscriber/',
-        SubscriberCreateView.as_view(),
-        name="subscriber-create"
-    ),
-    path(
         'call_record/',
         CallRecordCreateListView.as_view(),
         name="call-record"
-    ),
-    path(
-        'price/',
-        PriceCreateView.as_view(),
-        name="price-create"
     ),
     path(
         'bill_record/<slug:phone_number>/',
@@ -33,3 +29,4 @@ urlpatterns = [
         name="bill-record"
     ),
 ]
+urlpatterns += router.urls

@@ -9,7 +9,7 @@ from .models import BillRecord
 
 from .bill import Bill
 import datetime
-
+from rest_framework.exceptions import NotFound
 
 @receiver(post_save, sender=CallEndRecord)
 def create_bill_record(sender, instance, created, **kwargs):
@@ -23,8 +23,12 @@ def create_bill_record(sender, instance, created, **kwargs):
         duration = instance.timestamp - call_start.timestamp
         duration_format = (datetime.datetime.min + duration).time()
         bill = Bill(call_start)
-        price = bill.calculate_price(duration)
-
+        try:
+            price = bill.calculate_price(duration)
+        except:
+            error_message = """Price (standard and reduced) is required, 
+            create a price before create a call"""
+            raise NotFound(detail=error_message)
         BillRecord.objects.create(
             subscriber=subscriber,
             call_start_record=call_start,
