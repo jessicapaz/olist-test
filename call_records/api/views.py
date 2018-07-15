@@ -23,9 +23,19 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ViewSet
 
 
-class SubscriberViewSet(ViewSet):
+class SubscriberViewSet(ViewSet):  
     """
+    **POST**
     Create a new subscriber instance.
+
+    **GET (Retrieve)**:
+    Return the given subscriber.
+
+    **GET (List)**:
+    Return a list of all subscribers.
+
+    **DELETE**:
+    Delete the given subscriber.
     """
     queryset = Subscriber.objects.all()
     permission_classes = (IsAuthenticated, IsAdminUser)
@@ -110,7 +120,17 @@ class CallRecordCreateListView(APIView):
 
 class PriceViewSet(ViewSet):
     """
+    **POST**
     Create a new price instance.
+
+    **GET (Retrieve)**:
+    Return the given price.
+
+    **GET (List)**:
+    Return a list of all prices.
+
+    **DELETE**:
+    Delete the given price.
     """
     queryset = Price.objects.all()
     permission_classes = (IsAuthenticated, IsAdminUser)
