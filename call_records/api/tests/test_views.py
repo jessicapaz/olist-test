@@ -17,9 +17,13 @@ from api.models import Price
 
 from users.models import User
 
+from api.views import Subscriber
+
+from rest_framework import viewsets
 
 class SubscriberTestCase(APITestCase):
-    url = reverse('v1:subscriber-create')
+    url = reverse('v1:subscriber-list')
+    url_detail = reverse('v1:subscriber-detail', kwargs={'pk':91981848675})
 
     def setUp(self):
         self.email = "test@gmail.com"
@@ -37,7 +41,48 @@ class SubscriberTestCase(APITestCase):
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(json.loads(response.content), data)
+    
+    def test_list_subscriber(self):
+        data = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "phone_number": "91981848675"
+        }
+        response = self.client.post(self.url, data=data)
+        data_expected = [
+                {
+                    "first_name": "Test",
+                    "last_name": "Test",
+                    "phone_number": "91981848675"
+                }
+        ]
+        response = self.client.get(self.url)
+        self.assertEqual(json.loads(response.content), data_expected)
+    
+    def test_retrieve_subscriber(self):
+        data = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "phone_number": "91981848675"
+        }
+        response = self.client.post(self.url, data=data)
+        data_expected = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "phone_number": "91981848675"
+        }
+        response = self.client.get(self.url_detail)
+        self.assertEqual(json.loads(response.content), data_expected)
 
+    def test_delete_subscriber(self):
+        data = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "phone_number": "91981848675"
+        }
+        response = self.client.post(self.url, data=data)
+        response_delete = self.client.delete(self.url_detail, data=data)
+        self.assertEqual(response_delete.status_code, 204)
 
 class CallRecordTestCase(APITestCase):
     url = reverse('v1:call-record')
@@ -137,7 +182,8 @@ class CallRecordTestCase(APITestCase):
 
 
 class PriceTestCase(APITestCase):
-    url = reverse('v1:price-create')
+    url = reverse('v1:price-list')
+    url_detail = reverse('v1:price-detail', kwargs={'pk':1})
 
     def setUp(self):
         self.email = "test@gmail.com"
@@ -156,7 +202,52 @@ class PriceTestCase(APITestCase):
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(json.loads(response.content), data)
+    
+    def test_list_price(self):
+        data = {
+            "id": 1,
+            "tarrif_type": "standard",
+            "standing_charge": "0.36",
+            "call_charge": "0.09"
+        }
+        response = self.client.post(self.url, data=data)
+        data_expected = [
+            {
+                "id": 1,
+                "tarrif_type": "standard",
+                "standing_charge": "0.36",
+                "call_charge": "0.09"
+            }
+        ]  
+        response = self.client.get(self.url)
+        self.assertEqual(json.loads(response.content), data_expected) 
+    def test_retrieve_price(self):
+        data = {
+            "id": 1,
+            "tarrif_type": "standard",
+            "standing_charge": "0.36",
+            "call_charge": "0.09"
+        }
+        response = self.client.post(self.url, data=data)
+        data_expected = {
+            "id": 1,
+            "tarrif_type": "standard",
+            "standing_charge": "0.36",
+            "call_charge": "0.09"
+        }
+        response = self.client.get(self.url_detail)
+        self.assertEqual(json.loads(response.content), data_expected)
 
+    def test_delete_price(self):
+        data = {
+            "id": 1,
+            "tarrif_type": "standard",
+            "standing_charge": "0.36",
+            "call_charge": "0.09"
+        }
+        response = self.client.post(self.url, data=data)
+        response_delete = self.client.delete(self.url_detail, data=data)
+        self.assertEqual(response_delete.status_code, 204)
 
 class BillRecordTestCase(APITestCase):
     url = reverse('v1:call-record')
