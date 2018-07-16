@@ -9,7 +9,7 @@ class Bill:
         hour = self.call_start.timestamp.hour
         if 6 <= hour < 22:
             return Price.objects.filter(tarrif_type='standard').last()
-        elif 22 >= hour < 6:
+        elif hour >= 22 or hour < 6:
             return Price.objects.filter(tarrif_type='reduced').last()
 
     def calculate_price(self, duration):
