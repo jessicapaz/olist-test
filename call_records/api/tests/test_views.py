@@ -277,14 +277,14 @@ class BillRecordTestCase(APITestCase):
         )
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 2, 1, 20, 8, 45, tzinfo=pytz.UTC),
             call_id=3,
             source=self.subscriber,
             destination="9993468278"
         )
         self.call_end_create = CallEndRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2016, 2, 29, 13, 35, 0, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 2, 1, 22, 5, 35, tzinfo=pytz.UTC),
             call_id=3
         )
 
@@ -292,12 +292,12 @@ class BillRecordTestCase(APITestCase):
         subscriber = Subscriber.objects.get(first_name="Test")
         data = {
             "id": 1,
-            "subscriber_id": 99988526423,
+            "subscriber_id": "99988526423",
             "call_start_record_id": 1,
-            "call_duration": datetime.time(1, 35),
+            "call_duration": datetime.time(1, 56, 50),
             "reference_month": 2,
-            "reference_year": 2016,
-            "call_price": decimal.Decimal("8.91"),
+            "reference_year": 2018,
+            "call_price": decimal.Decimal("10.44"),
         }
         bill = BillRecord.objects.filter(subscriber=subscriber).values().last()
         self.assertEqual(bill, data)
