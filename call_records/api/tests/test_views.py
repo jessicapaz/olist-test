@@ -19,8 +19,6 @@ from users.models import User
 
 from api.views import Subscriber
 
-from rest_framework import viewsets
-
 class SubscriberTestCase(APITestCase):
     url = reverse('v1:subscriber-list')
     url_detail = reverse('v1:subscriber-detail', kwargs={'pk':91981848675})
@@ -164,7 +162,7 @@ class CallRecordTestCase(APITestCase):
                     'id': 1,
                     'timestamp': '2016-02-29T12:00:00Z',
                     'call_id': 70,
-                    'source': 99988526423,
+                    'source':  '99988526423',
                     'destination': '9993468277'
                 }
             ],

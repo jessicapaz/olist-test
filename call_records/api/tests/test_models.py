@@ -117,22 +117,22 @@ class BillRecordTest(TestCase):
         self.subscriber = Subscriber.objects.get(first_name="Test")
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2016, 2, 29, 12, 0, 0, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 2, 1, 12, 0, 45, tzinfo=pytz.UTC),
             call_id=3,
             source=self.subscriber,
             destination="9993468278"
         )
         self.call_end_create = CallEndRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2016, 2, 29, 13, 35, 0, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 2, 1, 13, 35, 35, tzinfo=pytz.UTC),
             call_id=3
         )
         self.call_start = CallStartRecord.objects.get(call_id=3)
         self.call_end = CallEndRecord.objects.get(call_id=3)
         self.duration = self.call_end.timestamp - self.call_start.timestamp
         self.duration_format = (datetime.datetime.min + self.duration).time()
-        self.bill = Bill(self.call_start)
-        self.call_price = self.bill.calculate_price(self.duration)
+        self.bill = Bill(self.call_start, self.call_end)
+        self.call_price = self.bill.get_call_price()
 
         self.bill_record = BillRecord.objects.create(
             id=2,
