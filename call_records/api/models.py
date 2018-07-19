@@ -80,7 +80,9 @@ class BillRecord(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    call_duration = models.TimeField()
+    call_duration = models.CharField(
+        max_length=15,
+    )
     reference_month = models.IntegerField(
         validators=[validate_month]
     )

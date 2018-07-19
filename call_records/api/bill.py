@@ -5,6 +5,16 @@ class Bill:
     def __init__(self, call_start, call_end):
         self.call_start = call_start
         self.call_end = call_end
+    
+    def get_call_duration(self):
+        timestamp_start, timestamp_end = self._get_timestamps()
+        duration = timestamp_end - timestamp_start
+        duration_seconds = duration.total_seconds()
+        hours = duration_seconds // 3600
+        minutes = (duration_seconds % 3600) // 60
+        seconds = duration_seconds % 60
+        call_duration = f'{int(hours)}:{int(minutes)}:{int(seconds)}'
+        return call_duration
 
     def get_call_price(self):
         std_minutes, rdc_minutes = self._get_tarrif_minutes()

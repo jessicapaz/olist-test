@@ -248,7 +248,7 @@ class PriceTestCase(APITestCase):
         self.assertEqual(response_delete.status_code, 204)
 
 class BillRecordTestCase(APITestCase):
-    url = reverse('v1:call-record')
+    url = reverse('v1:bill-record', kwargs={'phone_number':99988526423})
 
     def setUp(self):
         self.email = "test@gmail.com"
@@ -275,27 +275,31 @@ class BillRecordTestCase(APITestCase):
         )
         self.call_start_create = CallStartRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2018, 2, 1, 20, 8, 45, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 5, 31, 20, 8, 45, tzinfo=pytz.UTC),
             call_id=3,
             source=self.subscriber,
-            destination="9993468278"
+            destination="99988526423"
         )
         self.call_end_create = CallEndRecord.objects.create(
             id=1,
-            timestamp=datetime.datetime(2018, 2, 1, 22, 5, 35, tzinfo=pytz.UTC),
+            timestamp=datetime.datetime(2018, 6, 1, 22, 5, 35, tzinfo=pytz.UTC),
             call_id=3
         )
 
     def test_get_bill_record(self):
-        subscriber = Subscriber.objects.get(first_name="Test")
-        data = {
-            "id": 1,
-            "subscriber_id": "99988526423",
-            "call_start_record_id": 1,
-            "call_duration": datetime.time(1, 56, 50),
-            "reference_month": 2,
-            "reference_year": 2018,
-            "call_price": decimal.Decimal("10.44"),
+        data_expected = {
+            'bill_records': [
+                {
+                    'call_duration': '25:56:50',
+                    'call_price': '96.84',
+                    'call_start_date': '2018-05-31',
+                    'call_start_time': '20:08:45',
+                    'destination': '99988526423'
+                }
+            ],
+            'subscriber': 'Test Test',
+            'total_price': 96.84
         }
-        bill = BillRecord.objects.filter(subscriber=subscriber).values().last()
-        self.assertEqual(bill, data)
+            
+        response = self.client.get(self.url)
+        self.assertEqual(json.loads(response.content), data_expected)

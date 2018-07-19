@@ -21,12 +21,10 @@ def create_bill_record(sender, instance, created, **kwargs):
             Subscriber,
             phone_number=call_start.source.phone_number
         )
-        duration = instance.timestamp - call_start.timestamp
-        duration_seconds = duration.total_seconds()
-        duration_format = (datetime.datetime.min + duration).time()
         bill = Bill(call_start, instance)
         try:
             price = bill.get_call_price()
+            duration = bill.get_call_duration()
         except:
             instance.delete()
             error_message = """
@@ -37,7 +35,7 @@ def create_bill_record(sender, instance, created, **kwargs):
         BillRecord.objects.create(
             subscriber=subscriber,
             call_start_record=call_start,
-            call_duration=duration_format,
+            call_duration=duration,
             reference_month=instance.timestamp.month,
             reference_year=instance.timestamp.year,
             call_price=price
