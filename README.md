@@ -77,25 +77,25 @@ https://callrecords.herokuapp.com/v1/subscriber/
 * **GET (Retrieve)**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/subscriber/{phone_number}
+  https://callrecords.herokuapp.com/v1/subscriber/{phone_number}/
   ```
   * **Exemple:**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/subscriber/99988526423
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/subscriber/99988526423/
   ```
 
 * **DELETE**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/subscriber/{phone_number}
+  https://callrecords.herokuapp.com/v1/subscriber/{phone_number}/
   ```
   * **Exemple:**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X DELETE https://callrecords.herokuapp.com/v1/subscriber/99988526423
+  $ curl -H "Authorization: JWT <your_token>" -X DELETE https://callrecords.herokuapp.com/v1/subscriber/99988526423/
   ```
 
 ## Price 
-Receives a Price.
+Receives a Price (standard or reduced) and return a price list.
 
 ### **Base URL**:
 ```
@@ -107,11 +107,14 @@ https://callrecords.herokuapp.com/v1/price/
   ```
   https://callrecords.herokuapp.com/v1/price/
   ```
-  * **Exemple:**
+  * **Exemple: (Standard)**
   ```bash
   $ curl -H "Authorization: JWT <your_token>" -X POST -d "tarrif_type=standard&standing_charge=0.38&call_charge=0.08" https://callrecords.herokuapp.com/v1/price/
   ```
-
+  * **Exemple: (Reduced)**
+  ```bash
+  $ curl -H "Authorization: JWT <your_token>" -X POST -d "tarrif_type=reduced&standing_charge=0.38&call_charge=0.02" https://callrecords.herokuapp.com/v1/price/
+  ```
 * **GET (List)**
   * **URL**
   ```
@@ -125,7 +128,7 @@ https://callrecords.herokuapp.com/v1/price/
 * **GET (Retrieve)**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/price/{id}
+  https://callrecords.herokuapp.com/v1/price/{id}/
   ```
   * **Exemple:**
   ```bash
@@ -135,7 +138,7 @@ https://callrecords.herokuapp.com/v1/price/
 * **DELETE**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/price/{id}
+  https://callrecords.herokuapp.com/v1/price/{id}/
   ```
   * **Exemple:**
   ```bash
@@ -143,35 +146,35 @@ https://callrecords.herokuapp.com/v1/price/
   ```
 
 ## Call Record
-Receives a call record pair (start and end).
+Receives a call record pair (start and end) and return a call records list.
 
 ### **Base URL**:
 ```
-https://callrecords.herokuapp.com/v1/call_record/
+https://callrecords.herokuapp.com/v1/call-record/
 ```
 
 * **POST (Create)** 
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/call_record/
+  https://callrecords.herokuapp.com/v1/call-record/
   ```
   * **Exemple (Call Start Record):**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X POST -d "id=1&type=start&timestamp=2016-02-29T12:00:00Z&call_id=1&source=99981848345&destination=9993468277" https://callrecords.herokuapp.com/v1/call_record/
+  $ curl -H "Authorization: JWT <your_token>" -X POST -d "id=1&type=start&timestamp=2016-02-29T12:00:00Z&call_id=1&source=99981848345&destination=9993468277" https://callrecords.herokuapp.com/v1/call-record/
   ```
   * **Exemple (Call End Record):**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X POST -d "id=1&type=start&timestamp=2016-02-29T13:00:00Z&call_id=1" https://callrecords.herokuapp.com/v1/call_record/
+  $ curl -H "Authorization: JWT <your_token>" -X POST -d "id=1&type=end&timestamp=2016-02-29T13:00:00Z&call_id=1" https://callrecords.herokuapp.com/v1/call-record/
   ```
 
 * **GET (List)**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/call_record/
+  https://callrecords.herokuapp.com/v1/call-record/
   ```
   * **Exemple:**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/call_record/
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/call-record/
   ```
 
 ## Bill Record
@@ -179,27 +182,27 @@ Return a bill records list of one subscriber.
 
 ### **Base URL**:
 ```
-https://callrecords.herokuapp.com/v1/bill_record/{phone_number}
+https://callrecords.herokuapp.com/v1/bill-record/{phone_number}/
 ```
 
 * **GET (Considering the previous month)**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/bill_record/{phone_number}
+  https://callrecords.herokuapp.com/v1/bill-record/{phone_number}/
   ```
   * **Exemple:**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/bill_record/99988526423/
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/bill-record/99988526423/
 
   ```
 * **GET (Considering the given period)**
   * **URL**
   ```
-  https://callrecords.herokuapp.com/v1/bill_record/{phone_number}/?month={month}&year={year}
+  https://callrecords.herokuapp.com/v1/bill-record/{phone_number}/?month={month}&year={year}/
   ```
   * **Exemple:**
   ```bash
-  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/bill_record/99988526423/?month=12&year=2017/
+  $ curl -H "Authorization: JWT <your_token>" -X GET https://callrecords.herokuapp.com/v1/bill-record/99988526423/?month=12&year=2017/
   ```
 
 
