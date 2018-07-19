@@ -109,12 +109,18 @@ class Bill:
         call_reduced, standing_reduced = self._get_charges("reduced")
 
         if 6 <= hour_start < 22 and 6 <= hour_end < 22:
-            price_standard = call_standard * int(duration_seconds//60) + standing_standard
-            price_reduced = 0
+            if timestamp_end.date() > timestamp_start.date():
+                price_standard = call_standard * (
+                standard_minutes - minute_start + minute_end
+                )
+                price_reduced = call_reduced * reduced_minutes + standing_reduced
+            else:
+                price_standard = call_standard * int(duration_seconds//60) + standing_standard
+                price_reduced = 0
 
         elif (hour_start >= 22 or hour_start < 6) and (hour_end >= 22 or hour_end < 6):
-            price_standard = 0
-            price_reduced = call_reduced * int(duration_seconds//60) + standing_reduced
+            price_standard = call_standard * standard_minutes
+            price_reduced = call_reduced * reduced_minutes + standing_reduced
 
         elif 6 <= hour_start < 22 and (hour_end >= 22 or hour_end < 6):
             price_standard = call_standard * (standard_minutes - minute_start)
