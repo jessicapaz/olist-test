@@ -90,6 +90,7 @@ class Bill:
         return call, standing
 
     def _get_prices(self, standard_minutes, reduced_minutes):
+        timestamp_start, timestamp_end = self._get_timestamps()
         timestamp_attributes = self._get_timestamp_attributes()
         second_start = timestamp_attributes["second_start"]
         second_end = timestamp_attributes["second_end"]
@@ -98,6 +99,8 @@ class Bill:
         else:
             minute_start = timestamp_attributes["minute_start"] + 1
         minute_end = timestamp_attributes["minute_end"]
+        duration = timestamp_end - timestamp_start
+        duration_seconds = duration.total_seconds()
 
         hour_start = timestamp_attributes["hour_start"]
         hour_end = timestamp_attributes["hour_end"]
@@ -106,14 +109,12 @@ class Bill:
         call_reduced, standing_reduced = self._get_charges("reduced")
 
         if 6 <= hour_start < 22 and 6 <= hour_end < 22:
-            price_standard = call_standard * (
-                standard_minutes - minute_start + minute_end
-            )
-            price_reduced = call_reduced * reduced_minutes + standing_reduced
+            price_standard = call_standard * int(duration_seconds//60) + standing_standard
+            price_reduced = 0
 
         elif (hour_start >= 22 or hour_start < 6) and (hour_end >= 22 or hour_end < 6):
-            price_standard = call_standard * standard_minutes
-            price_reduced = call_reduced * reduced_minutes + standing_reduced
+            price_standard = 0
+            price_reduced = call_reduced * int(duration_seconds//60) + standing_reduced
 
         elif 6 <= hour_start < 22 and (hour_end >= 22 or hour_end < 6):
             price_standard = call_standard * (standard_minutes - minute_start)
