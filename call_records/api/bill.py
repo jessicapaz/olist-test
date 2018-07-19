@@ -102,9 +102,6 @@ class Bill:
             price_standard = call_standard * (
                 standard_minutes - minute_start + minute_end
             )
-
-            print(minute_end)
-            print(standard_minutes)
             price_reduced = call_reduced * reduced_minutes + standing_reduced
 
         elif (hour_start >= 22 or hour_start < 6) and (hour_end >= 22 or hour_end < 6):
