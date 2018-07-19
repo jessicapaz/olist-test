@@ -34,6 +34,8 @@ class Bill:
             "hour_end": timestamp_end.hour,
             "minute_start": timestamp_start.minute,
             "minute_end": timestamp_end.minute,
+            "second_start": timestamp_start.second,
+            "second_end": timestamp_end.second,
             "date_start": timestamp_start.date(),
             "date_end": timestamp_end.date(),
         }
@@ -89,8 +91,16 @@ class Bill:
 
     def _get_prices(self, standard_minutes, reduced_minutes):
         timestamp_attributes = self._get_timestamp_attributes()
-        minute_start = timestamp_attributes["minute_start"]
-        minute_end = timestamp_attributes["minute_end"]
+        second_start = timestamp_attributes["second_start"]
+        second_end = timestamp_attributes["second_end"]
+        if second_start == 0:
+            minute_start = timestamp_attributes["minute_start"]
+        else:
+            minute_start = timestamp_attributes["minute_start"] + 1
+        if second_end == 0:
+            minute_end = timestamp_attributes["minute_end"]
+        else:
+            minute_end = timestamp_attributes["minute_end"] + 1
 
         hour_start = timestamp_attributes["hour_start"]
         hour_end = timestamp_attributes["hour_end"]

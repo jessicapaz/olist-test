@@ -293,14 +293,14 @@ class BillRecordTestCase(APITestCase):
             'bill_records': [
                 {
                     'call_duration': '25:56:50',
-                    'call_price': '96.84',
+                    'call_price': '96.75',
                     'call_start_date': '2018-04-30',
                     'call_start_time': '20:08:45',
                     'destination': '99988526423'
                 }
             ],
             'subscriber': 'Test Test',
-            'total_price': 96.84
+            'total_price': 96.75
         }
             
         response = self.client.get(f'{self.url}?month=5&year=2018')
