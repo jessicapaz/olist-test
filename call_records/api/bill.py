@@ -97,10 +97,7 @@ class Bill:
             minute_start = timestamp_attributes["minute_start"]
         else:
             minute_start = timestamp_attributes["minute_start"] + 1
-        if second_end == 0:
-            minute_end = timestamp_attributes["minute_end"]
-        else:
-            minute_end = timestamp_attributes["minute_end"] + 1
+        minute_end = timestamp_attributes["minute_end"]
 
         hour_start = timestamp_attributes["hour_start"]
         hour_end = timestamp_attributes["hour_end"]
