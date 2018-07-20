@@ -16,7 +16,16 @@ from rest_framework.exceptions import NotFound
 def create_bill_record(sender, instance, created, **kwargs):
     if created:
         call_id = instance.call_id
-        call_start = get_object_or_404(CallStartRecord, call_id=call_id)
+        try:
+            call_start = CallStartRecord.objects.get(call_id=call_id)
+        except:
+            instance.delete()
+            error_message = """
+            Call start is required,
+            create a call start before create a call end.
+            """
+            raise NotFound(detail=error_message)
+
         subscriber = get_object_or_404(
             Subscriber,
             phone_number=call_start.source.phone_number
