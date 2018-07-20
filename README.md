@@ -5,7 +5,7 @@ A REST API that receives call records and calculates monthly bills for a given t
 
 ## Installation
 
-`$ git clone https://github.com/jessicapaz/olist-test.git`
+`$ git clone https://github.com/jessicapaz/work-at-olist.git`
 
 `$ cd olist-test`
 
@@ -47,7 +47,7 @@ https://callrecords.herokuapp.com/v1/auth/
   ```
 
 ## Subscriber
-Receives a subscriber.
+Receives a subscriber and return a subscriber list.
 
 ### **Base URL**:
 ```
