@@ -23,7 +23,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ViewSet
 
 
-class SubscriberViewSet(ViewSet):  
+class SubscriberViewSet(ViewSet):
     """
     **POST**
     Create a new subscriber instance.
@@ -60,6 +60,7 @@ class SubscriberViewSet(ViewSet):
         subscriber = get_object_or_404(Subscriber, pk=pk)
         subscriber.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CallRecordCreateListView(APIView):
     """
@@ -107,7 +108,7 @@ class CallRecordCreateListView(APIView):
             return request_data
         else:
             error_message = 'detail: type is required.'
-            return Response(error_message, status=status.HTTP_400_BAD_REQUEST)   
+            return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
     def get_call_serializer(self, call_type):
         if call_type == 'start':
@@ -141,16 +142,16 @@ class PriceViewSet(ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def list(self, request):
         serializer = PriceSerializer(self.queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def retrieve(self, request, pk=None):
         price = get_object_or_404(Price, pk=pk)
         serializer = PriceSerializer(price)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def destroy(self, request, pk=None):
         price = get_object_or_404(Price, pk=pk)
         price.delete()
@@ -172,7 +173,7 @@ class BillRecordView(APIView):
         bills = self.get_bill_queryset(subscriber, month, year)
         data = self.get_bill_data(subscriber, bills)
         return Response(data, status.HTTP_200_OK)
-    
+
     def get_bill_queryset(self, subscriber, month, year):
         bills = BillRecord.objects.filter(
             subscriber=subscriber,

@@ -12,6 +12,7 @@ import datetime
 from decimal import Decimal
 from rest_framework.exceptions import NotFound
 
+
 @receiver(post_save, sender=CallEndRecord)
 def create_bill_record(sender, instance, created, **kwargs):
     if created:

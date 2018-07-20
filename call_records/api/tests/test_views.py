@@ -19,9 +19,10 @@ from users.models import User
 
 from api.views import Subscriber
 
+
 class SubscriberTestCase(APITestCase):
     url = reverse('v1:subscriber-list')
-    url_detail = reverse('v1:subscriber-detail', kwargs={'pk':91981848675})
+    url_detail = reverse('v1:subscriber-detail', kwargs={'pk': 91981848675})
 
     def setUp(self):
         self.email = "test@gmail.com"
@@ -39,7 +40,7 @@ class SubscriberTestCase(APITestCase):
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(json.loads(response.content), data)
-    
+
     def test_list_subscriber(self):
         data = {
             "first_name": "Test",
@@ -56,7 +57,7 @@ class SubscriberTestCase(APITestCase):
         ]
         response = self.client.get(self.url)
         self.assertEqual(json.loads(response.content), data_expected)
-    
+
     def test_retrieve_subscriber(self):
         data = {
             "first_name": "Test",
@@ -81,6 +82,7 @@ class SubscriberTestCase(APITestCase):
         response = self.client.post(self.url, data=data)
         response_delete = self.client.delete(self.url_detail, data=data)
         self.assertEqual(response_delete.status_code, 204)
+
 
 class CallRecordTestCase(APITestCase):
     url = reverse('v1:call-record')
@@ -181,7 +183,7 @@ class CallRecordTestCase(APITestCase):
 
 class PriceTestCase(APITestCase):
     url = reverse('v1:price-list')
-    url_detail = reverse('v1:price-detail', kwargs={'pk':1})
+    url_detail = reverse('v1:price-detail', kwargs={'pk': 1})
 
     def setUp(self):
         self.email = "test@gmail.com"
@@ -200,7 +202,7 @@ class PriceTestCase(APITestCase):
         }
         response = self.client.post(self.url, data=data)
         self.assertEqual(json.loads(response.content), data)
-    
+
     def test_list_price(self):
         data = {
             "id": 1,
@@ -219,6 +221,7 @@ class PriceTestCase(APITestCase):
         ]  
         response = self.client.get(self.url)
         self.assertEqual(json.loads(response.content), data_expected) 
+
     def test_retrieve_price(self):
         data = {
             "id": 1,
@@ -247,9 +250,10 @@ class PriceTestCase(APITestCase):
         response_delete = self.client.delete(self.url_detail, data=data)
         self.assertEqual(response_delete.status_code, 204)
 
+
 class BillRecordTestCase(APITestCase):
     url = reverse('v1:bill-record', kwargs={
-        'phone_number':99988526423
+        'phone_number': 99988526423
     })
 
     def setUp(self):
@@ -302,6 +306,6 @@ class BillRecordTestCase(APITestCase):
             'subscriber': 'Test Test',
             'total_price': 96.75
         }
-            
+    
         response = self.client.get(f'{self.url}?month=5&year=2018')
         self.assertEqual(json.loads(response.content), data_expected)

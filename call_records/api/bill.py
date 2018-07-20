@@ -5,7 +5,7 @@ class Bill:
     def __init__(self, call_start, call_end):
         self.call_start = call_start
         self.call_end = call_end
-    
+
     def get_call_duration(self):
         timestamp_start, timestamp_end = self._get_timestamps()
         duration = timestamp_end - timestamp_start
@@ -111,11 +111,12 @@ class Bill:
         if 6 <= hour_start < 22 and 6 <= hour_end < 22:
             if timestamp_end.date() > timestamp_start.date():
                 price_standard = call_standard * (
-                standard_minutes - minute_start + minute_end
+                    standard_minutes - minute_start + minute_end
                 )
                 price_reduced = call_reduced * reduced_minutes + standing_reduced
             else:
-                price_standard = call_standard * int(duration_seconds//60) + standing_standard
+                price_standard = call_standard * int(
+                    duration_seconds//60) + standing_standard
                 price_reduced = 0
 
         elif (hour_start >= 22 or hour_start < 6) and (hour_end >= 22 or hour_end < 6):
