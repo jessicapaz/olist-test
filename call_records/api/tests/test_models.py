@@ -129,16 +129,15 @@ class BillRecordTest(TestCase):
         )
         self.call_start = CallStartRecord.objects.get(call_id=3)
         self.call_end = CallEndRecord.objects.get(call_id=3)
-        self.duration = self.call_end.timestamp - self.call_start.timestamp
-        self.duration_format = (datetime.datetime.min + self.duration).time()
         self.bill = Bill(self.call_start, self.call_end)
+        self.duration = self.bill.get_call_duration()
         self.call_price = self.bill.get_call_price()
 
         self.bill_record = BillRecord.objects.create(
             id=2,
             subscriber=self.subscriber,
             call_start_record=self.call_start,
-            call_duration=self.duration_format,
+            call_duration=self.duration,
             reference_month=self.call_end.timestamp.month,
             reference_year=self.call_end.timestamp.year,
             call_price=self.call_price
@@ -146,4 +145,4 @@ class BillRecordTest(TestCase):
 
     def test_bill_record_fields(self):
         bill_test = BillRecord.objects.get(id=2)
-        self.assertEqual(float(bill_test.call_price), 8.91)
+        self.assertEqual(float(bill_test.call_price), 8.82)
